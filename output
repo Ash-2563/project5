@@ -1,0 +1,60 @@
+📊 Task 1: Student Pass/Fail Prediction
+
+Model Used: Logistic Regression
+Input Features:
+
+Study Hours (hours per week)
+Attendance (% of classes attended)
+Target Variable:
+Pass(1 = Pass, 0 = Fail)
+
+📈 Accuracy:
+85% (on test data)
+
+🧮 Confusion Matrix:
+
+```
+[[ 4  2 ]
+ [ 1 13 ]]
+```
+
+Interpretation:
+
+True Negatives (4): Correctly predicted fails.
+True Positives (13): Correctly predicted passes.
+False Positives (2): Incorrectly predicted passes (actually failed).
+False Negatives (1): Incorrectly predicted fails (actually passed).
+
+---
+
+ 💬 Task 2: Sentiment Analysis (NLP)
+
+Model Used: Logistic Regression with TF-IDF
+Preprocessing Steps:
+
+* Lowercased text
+* Removed punctuation and special characters
+* TF-IDF vectorized
+
+Sample Dataset: 10 simple reviews (5 positive, 5 negative)
+
+📈 Classification Report:
+
+```
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00         1
+           1       1.00      1.00      1.00         1
+
+    accuracy                           1.00         2
+   macro avg       1.00      1.00      1.00         2
+weighted avg       1.00      1.00      1.00         2
+```
+
+Interpretation:
+
+* The model performed perfectly on the small test set.
+* TF-IDF successfully captured the sentiment-indicative words like "love", "worst", "fantastic", and "terrible".
+
+---
+
