@@ -1,0 +1,41 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+# Step 1: Generate synthetic dataset
+np.random.seed(42)
+study_hours = np.random.normal(15, 5, 100)
+attendance = np.random.normal(80, 10, 100)
+pass_fail = ((study_hours * 0.4 + attendance * 0.6) > 60).astype(int)
+
+df = pd.DataFrame({
+    'Study Hours': study_hours,
+    'Attendance': attendance,
+    'Pass': pass_fail
+})
+
+# Step 2: Visualizations
+sns.pairplot(df, hue='Pass')
+plt.suptitle("Student Pass/Fail Distribution", y=1.02)
+plt.show()
+
+# Step 3: Train-test split
+X = df[['Study Hours', 'Attendance']]
+y = df['Pass']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+# Step 4: Train model
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Step 5: Evaluation
+y_pred = model.predict(X_test)
+acc = accuracy_score(y_test, y_pred)
+cm = confusion_matrix(y_test, y_pred)
+
+print("Accuracy:", acc)
+print("Confusion Matrix:\n", cm)
