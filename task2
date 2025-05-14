@@ -1,0 +1,41 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+import re
+
+# Step 1: Sample dataset
+reviews = [
+    "I love this product!", "Worst experience ever", "Amazing quality and service",
+    "I hate this", "Absolutely fantastic!", "Terrible support", "Would not recommend",
+    "Excellent value for money", "Awful!", "Superb and reliable!"
+]
+sentiments = ["positive", "negative", "positive", "negative", "positive", "negative",
+              "negative", "positive", "negative", "positive"]
+
+df = pd.DataFrame({'Review': reviews, 'Sentiment': sentiments})
+
+# Step 2: Basic cleaning
+def clean_text(text):
+    text = text.lower()
+    text = re.sub(r'[^a-z\s]', '', text)
+    return text
+
+df['Cleaned_Review'] = df['Review'].apply(clean_text)
+df['Sentiment'] = df['Sentiment'].map({'positive': 1, 'negative': 0})
+
+# Step 3: Vectorization
+X = df['Cleaned_Review']
+y = df['Sentiment']
+vectorizer = TfidfVectorizer()
+X_vect = vectorizer.fit_transform(X)
+
+# Step 4: Train-test split and model
+X_train, X_test, y_train, y_test = train_test_split(X_vect, y, test_size=0.2, random_state=1)
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Step 5: Evaluation
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred))
